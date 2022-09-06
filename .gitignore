@@ -16,3 +16,4 @@ yarn-error.log
 index.php
 .htaccess
 .server.php
+composer.lock
