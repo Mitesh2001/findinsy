@@ -15,5 +15,5 @@ yarn-error.log
 /.vscode
 index.php
 .htaccess
-.server.php
+server.php
 composer.lock
