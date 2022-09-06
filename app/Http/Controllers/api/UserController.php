@@ -87,4 +87,29 @@ class UserController extends Controller
         }
 
     }
+
+    public function logout(Request $request)
+    {
+
+        $user = JWTAuth::parseToken()->authenticate();
+        if ($user) {
+            $user->token = null;
+            $user->save();
+        }
+
+        try {
+            JWTAuth::invalidate($request->input('token'));
+            return response()->json([
+                'status' => 'SUCCESS',
+                'message' => "You have successfully logged out."
+            ]);
+        } catch (JWTException $e) {
+            // something went wrong whilst attempting to encode the token
+            return response()->json([
+                'status' => 'FAIL',
+                'message' => 'Failed to logout, please try again.'
+            ]);
+        }
+    }
+
 }
