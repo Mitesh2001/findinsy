@@ -135,13 +135,7 @@ class UserController extends Controller
                 'first_name' => 'required|string|max:255',
                 'last_name' => 'string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
-                'mobile_number' => 'unique:users',
-                'password' => ['required','string',Password::min(6)
-                    ->letters()
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols()
-                ],
+                'mobile_number' => 'unique:users'
             ]);
 
             if($validator->fails()){
@@ -160,7 +154,6 @@ class UserController extends Controller
                 'email' => $request->get('email'),
                 'mobile_number' => $request->get('mobile_number'),
                 'birth_date' => $request->get('birth_date'),
-                'password' => Hash::make($request->get('password')),
             ]);
 
             DB::commit();

@@ -23,7 +23,6 @@ class CreateUsersTable extends Migration
             $table->bigInteger('otp')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('profile_pic')->nullable();
-            $table->string('password')->nullable();
             $table->rememberToken();
             $table->text('token')->nullable();
             $table->timestamps();
