@@ -174,6 +174,24 @@ class UserController extends Controller
 
     }
 
+    public function getAllUsers()
+    {
+        try {
+            $users = User::all(['id','first_name','last_name','email','mobile_number','birth_date','profile_pic','created_at','updated_at']);
+            return response()->json([
+                'users' => $users,
+                'status' => 'SUCCESS',
+                'message' => "All user's details fetched !"
+            ]);
+        } catch (JWTException $e) {
+            // something went wrong whilst attempting to encode the token
+            return response()->json([
+                'status' => 'FAIL',
+                'message' => 'Failed to logout, please try again.'
+            ]);
+        }
+    }
+
     public function logout(Request $request)
     {
 

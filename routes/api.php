@@ -23,6 +23,7 @@ Route::group(['as' => 'api.'], function () {
 
     Route::group(['middleware' => ['jwt.verify']], function() {
 
+        Route::get('get_all_users',[UserController::class,'getAllUsers']);
         Route::post('logout', [UserController::class,'logout']);
 
     });
