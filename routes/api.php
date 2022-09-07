@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['as' => 'api.'], function () {
 
     Route::post('user', [UserController::class,'register']);
+    Route::post('send_otp',[UserController::class,'sendOtp']);
     Route::post('login', [UserController::class,'authenticate']);
 
     Route::group(['middleware' => ['jwt.verify']], function() {
@@ -25,6 +26,7 @@ Route::group(['as' => 'api.'], function () {
         Route::post('logout', [UserController::class,'logout']);
 
     });
+
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
