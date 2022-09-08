@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\UserController;
+use App\Http\Controllers\api\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,8 @@ Route::group(['as' => 'api.'], function () {
 
         Route::get('get_all_users',[UserController::class,'getAllUsers']);
         Route::post('logout', [UserController::class,'logout']);
+
+        Route::resource('category', CategoryController::class);
 
     });
 
