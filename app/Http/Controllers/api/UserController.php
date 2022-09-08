@@ -130,12 +130,14 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
+
         try {
             $validator = Validator::make($request->all(), [
                 'first_name' => 'required|string|max:255',
                 'last_name' => 'string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
-                'mobile_number' => 'unique:users'
+                'mobile_number' => 'unique:users',
+                'profile_pic' => 'mimetypes:image/*'
             ]);
 
             if($validator->fails()){
@@ -148,12 +150,24 @@ class UserController extends Controller
 
             DB::beginTransaction();
 
+            $profile_pic = "";
+
+            if ($request->hasfile('profile_pic')) {
+
+                $imageFile = $request->file('profile_pic');
+                $name = $imageFile->getClientOriginalName();
+                $imageFile->move(public_path().'/profile_pictures/',$name);
+
+                $profile_pic = '/profile_pictures/'.$name;
+            }
+
             $user = User::create([
                 'first_name' => $request->get('first_name'),
                 'last_name' => $request->get('last_name'),
                 'email' => $request->get('email'),
                 'mobile_number' => $request->get('mobile_number'),
                 'birth_date' => $request->get('birth_date'),
+                'profile_pic' => $profile_pic
             ]);
 
             DB::commit();

@@ -60,9 +60,10 @@ class CategoryController extends Controller
             if ($request->hasfile('icon')) {
 
                 $imageFile = $request->file('icon');
-                $category_icon = $imageFile->getClientOriginalName();
-                $imageFile->move(public_path().'/category_icons/',$category_icon);
+                $name = $imageFile->getClientOriginalName();
+                $imageFile->move(public_path().'/category_icons/',$name);
 
+                $category_icon = '/category_icons/'.$name ;
             }
 
             $category = Category::create([
