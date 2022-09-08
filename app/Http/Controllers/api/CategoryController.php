@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use DB;
 
 class CategoryController extends Controller
 {
@@ -37,7 +38,6 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-
         try {
 
             $validator = Validator::make($request->all(), [
@@ -66,10 +66,9 @@ class CategoryController extends Controller
                 $category_icon = '/category_icons/'.$name ;
             }
 
-            $category = Category::create([
+            $category = auth()->user()->categories()->create([
                 'name' => $request->name,
                 'icon' => $category_icon,
-                'user_id' => auth()->id()
             ]);
 
             return response()->json(['category' => $category, 'message' => 'New category has been created successfully !', 'success' => false], 200);
