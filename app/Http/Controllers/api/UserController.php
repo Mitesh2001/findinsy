@@ -21,7 +21,7 @@ class UserController extends Controller
             $user = User::find($request->user_id);
 
             if (!$user) {
-                return response()->json(['message' => 'User not Found !', 'status' => 'FAIL'], 500);
+                return response()->json(['message' => 'User not Found !', 'success' => false], 500);
             }
 
             if ($user->otp == $request->otp) {
@@ -32,13 +32,13 @@ class UserController extends Controller
 
                 } catch (JWTException $e) {
 
-                    return response()->json(['message' => 'could_not_create_token', 'status' => 'FAIL'], 500);
+                    return response()->json(['message' => 'could_not_create_token', 'success' => false], 500);
 
                 }
 
             } else {
 
-                return response()->json(['message' => 'Wrong OTP !', 'status' => 'FAIL'], 500);
+                return response()->json(['message' => 'Wrong OTP !', 'success' => false], 500);
 
             }
 
@@ -143,7 +143,7 @@ class UserController extends Controller
             if($validator->fails()){
                 $errorString = implode(",", $validator->messages()->all());
                 return response()->json([
-                    'status' => 'FAIL',
+                    'success' => false,
                     'message' => $errorString
                 ]);
             }
@@ -194,13 +194,13 @@ class UserController extends Controller
             $users = User::all(['id','first_name','last_name','email','mobile_number','birth_date','profile_pic','created_at','updated_at']);
             return response()->json([
                 'users' => $users,
-                'status' => 'SUCCESS',
+                'success' => true,
                 'message' => "All user's details fetched !"
             ]);
         } catch (JWTException $e) {
             // something went wrong whilst attempting to encode the token
             return response()->json([
-                'status' => 'FAIL',
+                'success' => false,
                 'message' => 'Failed to logout, please try again.'
             ]);
         }
@@ -218,13 +218,13 @@ class UserController extends Controller
         try {
             JWTAuth::invalidate($request->input('token'));
             return response()->json([
-                'status' => 'SUCCESS',
+                'success' => true,
                 'message' => "You have successfully logged out."
             ]);
         } catch (JWTException $e) {
             // something went wrong whilst attempting to encode the token
             return response()->json([
-                'status' => 'FAIL',
+                'success' => false,
                 'message' => 'Failed to logout, please try again.'
             ]);
         }
