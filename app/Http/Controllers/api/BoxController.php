@@ -17,7 +17,19 @@ class BoxController extends Controller
      */
     public function index()
     {
-        //
+        try {
+
+            $boxes = auth()->user()->boxes->where('category_id',3);
+
+            return response()->json(['boxes' => $boxes, 'message' => 'All Boxes has been fetched successfully !', 'success' => true], 200);
+
+        } catch (\Throwable $th) {
+
+            $errors['success'] = false;
+            $errors['message'] = "Something went wrong !";
+            return response()->json($errors, 401);
+
+        }
     }
 
     /**
@@ -67,7 +79,7 @@ class BoxController extends Controller
 
             auth()->user()->boxes()->attach($box);
 
-            return response()->json(['box' => $box, 'message' => 'New Box has been created successfully !', 'success' => false], 200);
+            return response()->json(['box' => $box, 'message' => 'New Box has been created successfully !', 'success' => true], 200);
 
         } catch (\Throwable $th) {
 
@@ -125,6 +137,17 @@ class BoxController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+
+            Box::find($id)->delete();
+            return response()->json(['message' => 'Box has been deleted successfully !', 'success' => true], 200);
+
+        } catch (\Throwable $th) {
+
+            $errors['success'] = false;
+            $errors['message'] = "Something went wrong !";
+            return response()->json($errors, 401);
+
+        }
     }
 }
