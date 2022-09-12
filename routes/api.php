@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\api\CategoryController;
+use App\Http\Controllers\api\BoxController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,7 @@ Route::group(['as' => 'api.'], function () {
         Route::post('logout', [UserController::class,'logout']);
 
         Route::resource('category', CategoryController::class);
+        Route::resource('box', BoxController::class);
 
     });
 

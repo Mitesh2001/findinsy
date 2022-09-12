@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Category;
+use App\Models\Box;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -66,6 +67,16 @@ class User extends Authenticatable implements JWTSubject
     public function categories()
     {
         return $this->hasMany(Category::class);
+    }
+
+    /**
+     * The users that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function boxes()
+    {
+        return $this->belongsToMany(Box::class);
     }
 
 }
