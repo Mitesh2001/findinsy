@@ -126,7 +126,44 @@ class BoxController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        try {
+
+            $validator = Validator::make($request->all(), [
+                'name' => "required|string|max:255|unique:boxes,name,$id",
+                'category_id' => 'exists:categories,id'
+            ],[
+                'category_id.exists' => "Category doesn't exists !"
+            ]);
+
+            if($validator->fails()){
+
+                $errorString = implode(",", $validator->messages()->all());
+                return response()->json([
+                    'message' => $errorString,
+                    'success' => false
+                ]);
+
+            }
+
+            $box = Box::find($id);
+
+            $box->update([
+                'name' => $request->get('name'),
+                'description' => $request->get('description'),
+                'category_id' => $request->get('category_id')
+            ]);
+
+            return response()->json(['box' => $box, 'message' => 'Box has been updated successfully !', 'success' => true], 200);
+
+        } catch (\Throwable $th) {
+
+            $errors['success'] = false;
+            $errors['message'] = "Something went wrong !";
+            return response()->json($errors, 401);
+
+        }
+
     }
 
     /**
