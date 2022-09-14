@@ -73,7 +73,7 @@ class UserController extends Controller
             }
 
             $mobile_number = "+91".(int)$request->mobile_number;
-            $otp = 123456 /* random_int(100000, 999999); */ ; 
+            $otp = 123456 /* random_int(100000, 999999); */ ;
             $user->update(['otp' => $otp]);
 
             $service_plan_id = "3c5760b6570345c59cad9551b88e6fc2";
@@ -157,8 +157,7 @@ class UserController extends Controller
                 $imageFile = $request->file('profile_pic');
                 $name = $imageFile->getClientOriginalName();
                 $imageFile->move(public_path().'/profile_pictures/',$name);
-
-                $profile_pic = '/profile_pictures/'.$name;
+                return $profile_pic = 'public/profile_pictures/'.$name;
             }
 
             $user = User::create([

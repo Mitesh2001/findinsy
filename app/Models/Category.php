@@ -12,7 +12,6 @@ class Category extends Model
 
     public $fillable = [
         'name',
-        'icon',
         'user_id'
     ];
 

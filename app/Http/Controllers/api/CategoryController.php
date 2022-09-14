@@ -42,7 +42,6 @@ class CategoryController extends Controller
 
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255|unique:categories',
-                'icon' => 'mimetypes:image/*'
             ]);
 
             if($validator->fails()){
@@ -55,20 +54,8 @@ class CategoryController extends Controller
 
             }
 
-            $category_icon = "";
-
-            if ($request->hasfile('icon')) {
-
-                $imageFile = $request->file('icon');
-                $name = $imageFile->getClientOriginalName();
-                $imageFile->move(public_path().'/category_icons/',$name);
-
-                $category_icon = '/category_icons/'.$name ;
-            }
-
             $category = auth()->user()->categories()->create([
                 'name' => $request->name,
-                'icon' => $category_icon,
             ]);
 
             return response()->json(['category' => $category, 'message' => 'New category has been created successfully !', 'success' => false], 200);
