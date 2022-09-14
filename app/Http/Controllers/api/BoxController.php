@@ -83,7 +83,6 @@ class BoxController extends Controller
 
         } catch (\Throwable $th) {
 
-            DB::rollBack();
             $errors['success'] = false;
             $errors['message'] = "Something went wrong !";
             if ($request->debug_mode == 'ON') {
