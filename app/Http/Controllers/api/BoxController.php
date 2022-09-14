@@ -15,11 +15,11 @@ class BoxController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
 
-            $boxes = auth()->user()->boxes->where('category_id',3);
+            $boxes = auth()->user()->boxes->where('category_id',$request->category_id);
 
             return response()->json(['boxes' => $boxes, 'message' => 'All Boxes has been fetched successfully !', 'success' => true], 200);
 
