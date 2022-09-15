@@ -175,7 +175,7 @@ class BoxController extends Controller
     {
         try {
 
-            Box::find($id)->delete();
+            auth()->user()->boxes->where('id',$id)->first()->delete();
             return response()->json(['message' => 'Box has been deleted successfully !', 'success' => true], 200);
 
         } catch (\Throwable $th) {
