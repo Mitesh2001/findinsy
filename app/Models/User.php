@@ -76,7 +76,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function boxes()
     {
-        return $this->belongsToMany(Box::class);
+        return $this->belongsToMany(Box::class,'box_user');
     }
 
 }

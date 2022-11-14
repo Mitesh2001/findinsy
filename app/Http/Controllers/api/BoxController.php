@@ -17,11 +17,15 @@ class BoxController extends Controller
      */
     public function index(Request $request)
     {
+        $data = [];
+        foreach (auth()->user()->boxes as $key => $box) {
+            if ($box->category_id == $request->category_id) {
+                $data[] = $box;
+            }
+        }
         try {
 
-            $boxes = auth()->user()->boxes->where('category_id',$request->category_id);
-
-            return response()->json(['boxes' => $boxes, 'message' => 'All Boxes has been fetched successfully !', 'success' => true], 200);
+            return response()->json(['boxes' => $data, 'message' => 'All Boxes has been fetched successfully !', 'success' => true], 200);
 
         } catch (\Throwable $th) {
 
@@ -54,7 +58,7 @@ class BoxController extends Controller
         try {
 
             $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:255|unique:boxes',
+                'name' => 'required|string|max:255',
                 'category_id' => 'exists:categories,id'
             ],[
                 'category_id.exists' => "Category doesn't exists !"
