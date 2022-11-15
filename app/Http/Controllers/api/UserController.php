@@ -166,7 +166,9 @@ class UserController extends Controller
                 'email' => $request->get('email'),
                 'mobile_number' => $request->get('mobile_number'),
                 'birth_date' => $request->get('birth_date'),
-                'profile_pic' => $profile_pic
+                'profile_pic' => $profile_pic,
+                'google_signup' => $request->get('google_signup'),
+                'facebook_signup' => $request->get('facebook_signup')
             ]);
 
             DB::commit();

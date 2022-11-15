@@ -22,6 +22,8 @@ class CreateUsersTable extends Migration
             $table->date('birth_date')->nullable();
             $table->bigInteger('otp')->nullable();
             $table->timestamp('email_verified_at')->nullable();
+            $table->boolean('google_signup')->nullable()->default(false);
+            $table->boolean('facebook_signup')->nullable()->default(false);
             $table->string('profile_pic')->nullable();
             $table->rememberToken();
             $table->text('token')->nullable();
