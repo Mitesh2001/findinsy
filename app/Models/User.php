@@ -27,7 +27,9 @@ class User extends Authenticatable implements JWTSubject
         'birth_date',
         'email',
         'otp',
-        'profile_pic'
+        'profile_pic',
+        'google_signup',
+        'facebook_signup'
     ];
 
     /**
