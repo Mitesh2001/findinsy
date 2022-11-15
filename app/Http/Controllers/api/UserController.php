@@ -134,8 +134,8 @@ class UserController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'first_name' => 'required|string|max:255',
-                'last_name' => 'string|max:255',
-                'email' => 'string|email|max:255',
+                'last_name' => 'max:255',
+                'email' => 'email|max:255',
                 'mobile_number' => 'unique:users',
                 'profile_pic' => 'mimetypes:image/*'
             ]);
