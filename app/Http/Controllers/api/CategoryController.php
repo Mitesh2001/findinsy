@@ -73,12 +73,8 @@ class CategoryController extends Controller
             return response()->json(['category' => $category, 'message' => 'New category has been created successfully !', 'success' => false], 200);
 
         } catch (\Throwable $th) {
-            DB::rollBack();
             $errors['success'] = false;
             $errors['message'] = "Something went wrong !";
-            if ($request->debug_mode == 'ON') {
-                $errors['debug'] = $th->getMessage();
-            }
             return response()->json($errors, 401);
         }
 
@@ -126,6 +122,20 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+
+            if (auth()->user()->categories->contains($id)) {
+                $category = Category::find($id);
+                $category->delete();
+                return response()->json(['message' => 'Category has been deleted successfully !', 'success' => true], 200);
+            } else {
+                return response()->json(['message' => 'Category does not exists !', 'success' => false], 200);
+            }
+
+        } catch (\Throwable $th) {
+            $errors['success'] = false;
+            $errors['message'] = "Something went wrong !";
+            return response()->json($errors, 401);
+        }
     }
 }
