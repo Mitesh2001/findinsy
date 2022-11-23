@@ -3,6 +3,7 @@
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\api\BoxController;
+use App\Http\Controllers\api\ItemController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,9 +30,12 @@ Route::group(['as' => 'api.'], function () {
         Route::post('logout', [UserController::class,'logout']);
 
         Route::resource('category', CategoryController::class);
+
         Route::resource('box', BoxController::class);
         Route::post('box_rename', [BoxController::class,'renameBox']);
         Route::post('box_move', [BoxController::class,'boxMove']);
+
+        Route::resource('item', ItemController::class);
 
     });
 
