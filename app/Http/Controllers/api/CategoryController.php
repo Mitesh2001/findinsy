@@ -17,7 +17,19 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        try{
+
+            $categories = auth()->user()->categories;
+
+            return response()->json(['categories' => $categories, 'message' => 'All Categories fetched successfully !', 'success' => false], 200);
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $errors['success'] = false;
+            $errors['message'] = "Something went wrong !";
+            return response()->json($errors, 401);
+        }
+
     }
 
     /**
