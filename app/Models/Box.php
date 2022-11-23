@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Item;
 use App\Models\Category;
 
 
@@ -28,6 +29,16 @@ class Box extends Model
     public function users()
     {
         return $this->belongsToMany(User::class,'box_user');
+    }
+
+    /**
+     * Get all of the items for the Box
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function items()
+    {
+        return $this->hasMany(Item::class, 'box_id', 'id');
     }
 
 }

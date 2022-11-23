@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Models\Item;
+use App\Models\Box;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -14,9 +15,21 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+
+        try {
+
+            $items = Box::find($request->box_id)->items;
+            return response()->json(['items' => $items, 'message' => 'Item fetched successfully !', 'success' => true], 200);
+
+        } catch (\Throwable $th) {
+
+            $errors['success'] = false;
+            $errors['message'] = "Something went wrong !";
+            return response()->json($errors, 401);
+        }
+
     }
 
     /**
