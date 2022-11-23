@@ -191,6 +191,43 @@ class BoxController extends Controller
         }
     }
 
+    public function boxMove(Request $request)
+    {
+        try {
+
+            $validator = Validator::make($request->all(), [
+                'box_id' => "required",
+                'category_id' => 'required|exists:categories,id'
+            ],[
+                'category_id.exists' => "Category doesn't exists !"
+            ]);
+
+            if($validator->fails()){
+
+                $errorString = implode(",", $validator->messages()->all());
+                return response()->json([
+                    'message' => $errorString,
+                    'success' => false
+                ]);
+
+            }
+
+            $box = Box::find($request->box_id);
+            $box->update([
+                'category_id' => $request->category_id
+            ]);
+
+            return response()->json(['box' => $box,'message' => 'Box has been moved to new Category !', 'success' => true], 200);
+
+        } catch (\Throwable $th) {
+
+            $errors['success'] = false;
+            $errors['message'] = "Something went wrong !";
+            return response()->json($errors, 401);
+
+        }
+    }
+
     public function renameBox(Request $request)
     {
         try {
