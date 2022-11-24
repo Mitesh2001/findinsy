@@ -53,10 +53,10 @@ class ItemController extends Controller
         try{
 
             $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'box_id' => 'required',
-            'category_id' => 'exists:categories,id',
-            'icon' => 'mimetypes:image/*'
+                'name' => 'required|string|max:255',
+                'box_id' => 'required',
+                'category_id' => 'exists:categories,id',
+                'icon' => 'mimetypes:image/*'
             ],[
                 'category_id.exists' => "Category doesn't exists !"
             ]);
@@ -145,4 +145,40 @@ class ItemController extends Controller
     {
         //
     }
+
+    public function renameItem(Request $request)
+    {
+        try {
+
+            $validator = Validator::make($request->all(), [
+                'new_name' => 'required|string|max:255',
+                'box_id' => 'required',
+                'item_id' => 'required',
+            ]);
+
+            if($validator->fails()){
+                $errorString = implode(",", $validator->messages()->all());
+                return response()->json([
+                    'success' => false,
+                    'message' => $errorString
+                ]);
+            }
+
+            if (Box::find($request->box_id)->items->contains($request->item_id)) {
+                $item = Item::find($request->item_id);
+                $item->update(['name' => $request->new_name]);
+                return response()->json(['item' => $item, 'message' => "Item renamed successfully !", 'success' => true], 200);
+            } else {
+                return response()->json(['message' => "Item doesn't exist or not belongs to Box !", 'success' => false], 200);
+            }
+
+        } catch (\Throwable $th) {
+
+            $errors['success'] = false;
+            $errors['message'] = "Something went wrong !";
+            return response()->json($errors, 401);
+
+        }
+    }
+
 }

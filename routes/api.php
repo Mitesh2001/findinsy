@@ -36,6 +36,7 @@ Route::group(['as' => 'api.'], function () {
         Route::post('box_move', [BoxController::class,'boxMove']);
 
         Route::resource('item', ItemController::class);
+        Route::post('rename_item', [ItemController::class,'renameItem']);
 
     });
 
