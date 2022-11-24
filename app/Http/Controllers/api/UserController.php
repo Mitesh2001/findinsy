@@ -157,7 +157,7 @@ class UserController extends Controller
                 $imageFile = $request->file('profile_pic');
                 $name = $imageFile->getClientOriginalName();
                 $imageFile->move(public_path().'/profile_pictures/',$name);
-                $profile_pic = 'public/profile_pictures/'.$name;
+                $profile_pic = '/profile_pictures/'.$name;
             }
 
             $user = User::create([

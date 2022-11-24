@@ -76,7 +76,7 @@ class ItemController extends Controller
                 $imageFile = $request->file('icon');
                 $name = $imageFile->getClientOriginalName();
                 $imageFile->move(public_path().'/item_icons/',$name);
-                $icon = 'public/item_icons/'.$name;
+                $icon = '/item_icons/'.$name;
             }
 
             $item = Item::create([
