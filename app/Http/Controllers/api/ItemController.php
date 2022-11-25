@@ -143,7 +143,20 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
-        //
+
+        try {
+
+            if ($item->delete()) {
+                return response()->json(['message' => "Item deleted successfully !", 'success' => true], 200);
+            }
+
+        } catch (\Throwable $th) {
+
+            $errors['success'] = false;
+            $errors['message'] = "Something went wrong !";
+            return response()->json($errors, 401);
+
+        }
     }
 
     public function renameItem(Request $request)
