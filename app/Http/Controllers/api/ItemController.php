@@ -132,7 +132,55 @@ class ItemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        //
+        try {
+
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'box_id' => 'exists:boxes,id',
+                'category_id' => 'exists:categories,id',
+                'icon' => 'mimetypes:image/*'
+            ],[
+                'box_id.exists' => "Box doesn't exists !",
+                'category_id.exists' => "Category doesn't exists !"
+            ]);
+
+            if($validator->fails()){
+                $errorString = implode(",", $validator->messages()->all());
+                return response()->json([
+                    'success' => false,
+                    'message' => $errorString
+                ]);
+            }
+
+            $icon = $item->icon;
+
+            if ($request->hasfile('icon')) {
+
+                $imageFile = $request->file('icon');
+                $name = $imageFile->getClientOriginalName();
+                $imageFile->move(public_path().'/item_icons/',$name);
+                $icon = '/item_icons/'.$name;
+            }
+
+            $item->update([
+                'name' => $request->name,
+                'description' => $request->description,
+                'user_id' => auth()->id(),
+                'category_id' => $request->category_id,
+                'box_id' => $request->box_id,
+                'icon' => $icon
+            ]);
+
+            return response()->json(['item' => $item, 'message' => 'Item updated successfully !', 'success' => true], 200);
+
+
+        } catch (\Throwable $th) {
+
+            $errors['success'] = false;
+            $errors['message'] = "Something went wrong !";
+            return response()->json($errors, 401);
+
+        }
     }
 
     /**
